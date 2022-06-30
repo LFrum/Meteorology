@@ -1,0 +1,25 @@
+#!/usr/bin/env python
+# this short program demonstrates an alternative to using
+# the netCDF4 module to read in the arrays of tos_O1_2001-2002.nc
+import numpy as np
+sstf = np.load('sst.npy')
+print("too big to be a temperature in degrees K ", sstf.max())
+sst = np.ma.masked_where(sstf>400, sstf)
+print("this should be 305.5:", sst.max())
+print("shape of sst:", sst.shape, "   sample:",sst[12,100,100])
+
+lon1d = np.load('lon1d.npy')
+print("shape of lon1d:", lon1d.shape,"   sample:",lon1d[100])
+
+lat1d = np.load('lat1d.npy')
+print("shape of lat1d:", lat1d.shape,"   sample:",lat1d[100])
+
+# FYI: The netCDF4 module worked for me.  This is how I made the files,
+# after loading sst and lon1d and lat1d from tos_O1_2001-2002.nc
+# np.save('sst.npy',sst.data)
+# np.save('lon1d.npy',lon1d)
+# np.save('lat1d.npy',lat1d)
+# Note that sst was a masked array, so I could only saved the data, not the mask.
+# So in the above, I had to add the mask to sst
+
+
